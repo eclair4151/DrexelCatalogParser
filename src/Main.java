@@ -15,10 +15,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        Connection connection = null;
         try {
 
 
-            Connection connection = DriverManager.getConnection("jdbc:sqlite:DrexelClassdb");
+            connection = DriverManager.getConnection("jdbc:sqlite:DrexelClassdb");
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
             statement.executeUpdate("drop table if exists DrexelClass");
@@ -38,23 +39,24 @@ public class Main {
 
             System.out.println("writing classes to database");
             for (int i = 0; i < allclasses.size(); i++) {
-                try
-                {
-                    statement.executeUpdate("insert into DrexelClass values(" + (i + 1) + ", " + allclasses.get(i).getSQLinsert() + ")");
-                }
-                catch (SQLException e)
-                {
-                    int test = 1;
-                    test++;
-                }
-
+                statement.executeUpdate("insert into DrexelClass values(" + (i + 1) + ", " + allclasses.get(i).getSQLinsert() + ")");
             }
-            connection.close();
+
         }
         catch (SQLException e)
         {
-            int test = 1;
-            test++;
+            System.out.println("Something went wrong!!: " + e.getMessage());
+        }
+        finally {
+            try
+            {
+                connection.close();
+            }
+            catch (SQLException e)
+            {
+                System.out.println("error closing database!");
+            }
+
         }
         System.out.println("completed Successfully");
     }
