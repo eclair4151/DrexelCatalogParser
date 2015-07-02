@@ -111,11 +111,6 @@ public class Main {
             newClass.courseType = fullcode.split("\u00a0")[0];
             newClass.courseNum = fullcode.split("\u00a0")[1];
 
-            if(newClass.courseType.equals("CHEM") && newClass.courseNum.equals("101"))
-            {
-                int test = 1;
-                test++;
-            }
             String credits = classblock.textNodes().get(0).toString();
             newClass.courseCredits = credits.replaceAll("\\s+", "");
 
@@ -124,8 +119,7 @@ public class Main {
 
             newClass.courseDescription = currentcourse.getElementsByClass("courseblockdesc").text();
             newClass.courseDescription = (newClass.courseDescription.equals(""))?null:newClass.courseDescription;
-
-            //.getElementsByTag("b").get(0).textNodes().get(0).toString()
+            
             for(Element property: currentcourse.getElementsByTag("b"))
             {
                 String type = property.textNodes().get(0).toString();
