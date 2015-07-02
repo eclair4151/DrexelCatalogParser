@@ -28,7 +28,7 @@ public class Main {
 
             statement.executeUpdate("drop table if exists DrexelClass");
             statementBrief.executeUpdate("drop table if exists DrexelClass");
-            statement.executeUpdate("create table DrexelClass (id integer, courseType string, courseNum string, courseTitle string, courseCredits string, courseDescription string, courseCollege string, courseRepeatStatus, coursePrereqs string, courseRestrictions string, courseCoReqs string, courseTermType string, courseStudentType string)");
+            statement.executeUpdate("create table DrexelClass (id integer, courseType string, courseNum string, courseTitle string, courseCredits string, courseDescription string, courseCollege string, courseRepeatStatus string, coursePrereqs string, courseRestrictions string, courseCoReqs string, courseTermType string, courseStudentType string)");
             statementBrief.executeUpdate("create table DrexelClass (courseType string, courseNum string, courseTitle string, courseCredits string)");
 
             List<DrexelClass> allclasses = new ArrayList<>(0);
