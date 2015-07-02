@@ -116,7 +116,8 @@ public class Main {
 
             newClass.courseTitle = classblock.getElementsByClass("cdspacing").get(1).text();
 
-            newClass.courseDescription = Jsoup.parse(currentcourse.getElementsByClass("courseblockdesc").get(0).textNodes().get(0).toString().replace("\n","").trim()).text();
+
+            newClass.courseDescription = currentcourse.getElementsByClass("courseblockdesc").text();
             newClass.courseDescription = (newClass.courseDescription.equals(""))?null:newClass.courseDescription;
 
             //.getElementsByTag("b").get(0).textNodes().get(0).toString()
