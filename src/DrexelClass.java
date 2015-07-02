@@ -36,6 +36,11 @@ public class DrexelClass implements Comparable<DrexelClass>{
         return  insertString;
     }
 
+    public String getSQLBriefinsert()
+    {
+        return "'" + courseType + "', '" + courseNum + "', '" + courseTitle.replace("'","''") + "', '" + courseCredits + "'";
+    }
+
     @Override
     public int compareTo(DrexelClass o) {
         return (courseType + courseNum).compareTo(o.courseType + o.courseNum);

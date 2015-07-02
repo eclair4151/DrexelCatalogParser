@@ -16,14 +16,21 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         Connection connection = null;
+        Connection connectionBrief = null;
+
         try {
 
 
-            connection = DriverManager.getConnection("jdbc:sqlite:DrexelClassdb");
+            connection = DriverManager.getConnection("jdbc:sqlite:DrexelClassdb.sqlite3");
+            connectionBrief = DriverManager.getConnection("jdbc:sqlite:DrexelClassBriefdb.sqlite3");
             Statement statement = connection.createStatement();
-            statement.setQueryTimeout(30);
+            Statement statementBrief = connectionBrief.createStatement();
+
             statement.executeUpdate("drop table if exists DrexelClass");
+            statementBrief.executeUpdate("drop table if exists DrexelClass");
             statement.executeUpdate("create table DrexelClass (id integer, courseType string, courseNum string, courseTitle string, courseCredits string, courseDescription string, courseCollege string, courseRepeatStatus, coursePrereqs string, courseRestrictions string, courseCoReqs string, courseTermType string, courseStudentType string)");
+            statementBrief.executeUpdate("create table DrexelClass (courseType string, courseNum string, courseTitle string, courseCredits string)");
+
             List<DrexelClass> allclasses = new ArrayList<>(0);
 
             allclasses.addAll(loadClassesFromCatalog("quarter", "undergrad"));
@@ -40,6 +47,7 @@ public class Main {
             System.out.println("writing classes to database");
             for (int i = 0; i < allclasses.size(); i++) {
                 statement.executeUpdate("insert into DrexelClass values(" + (i + 1) + ", " + allclasses.get(i).getSQLinsert() + ")");
+                statementBrief.executeUpdate("insert into DrexelClass values(" + allclasses.get(i).getSQLBriefinsert() + ")");
             }
 
         }
@@ -51,6 +59,7 @@ public class Main {
             try
             {
                 connection.close();
+                connectionBrief.close();
             }
             catch (SQLException e)
             {
@@ -98,9 +107,9 @@ public class Main {
             newClass.courseTermType = termType;
             newClass.courseStudentType = studentType;
 
-            String fullcode = classblock.getElementsByClass("cdspacing").get(0).text().replace("\u00a0", " ");
-            newClass.courseType = fullcode.split(" ")[0];
-            newClass.courseNum = fullcode.split(" ")[1];
+            String fullcode = classblock.getElementsByClass("cdspacing").get(0).text();
+            newClass.courseType = fullcode.split("\u00a0")[0];
+            newClass.courseNum = fullcode.split("\u00a0")[1];
 
             String credits = classblock.textNodes().get(0).toString();
             newClass.courseCredits = credits.replaceAll("\\s+", "");
