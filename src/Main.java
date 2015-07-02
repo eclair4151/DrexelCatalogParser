@@ -111,6 +111,11 @@ public class Main {
             newClass.courseType = fullcode.split("\u00a0")[0];
             newClass.courseNum = fullcode.split("\u00a0")[1];
 
+            if(newClass.courseType.equals("CHEM") && newClass.courseNum.equals("101"))
+            {
+                int test = 1;
+                test++;
+            }
             String credits = classblock.textNodes().get(0).toString();
             newClass.courseCredits = credits.replaceAll("\\s+", "");
 
@@ -135,8 +140,11 @@ public class Main {
                     case "Prerequisites:":
                         newClass.coursePrereqs = value;
                         break;
-                    case "Corequisite: ":
-                        newClass.courseCoReqs = value;
+                    case "Corequisite":
+                        newClass.courseCoReqs = value.replace(":","").trim(); //Because drexel doesnt know how to write html....
+                        break;
+                    case "Corequisite:":
+                        newClass.courseCoReqs = value; //Because drexel doesnt know how to write html....
                         break;
                     case "Restrictions:":
                         newClass.courseRestrictions = value;
