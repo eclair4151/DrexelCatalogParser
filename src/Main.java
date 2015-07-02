@@ -28,8 +28,8 @@ public class Main {
 
             statement.executeUpdate("drop table if exists DrexelClass");
             statementBrief.executeUpdate("drop table if exists DrexelClass");
-            statement.executeUpdate("create table DrexelClass (id integer, courseType string, courseNum string, courseTitle string, courseCredits string, courseDescription string, courseCollege string, courseRepeatStatus string, coursePrereqs string, courseRestrictions string, courseCoreqs string, courseTermType string, courseStudentType string)");
-            statementBrief.executeUpdate("create table DrexelClass (courseType string, courseNum string, courseTitle string, courseCredits string)");
+            statement.executeUpdate("create table DrexelClass (id INTEGER NOT NULL, courseType TEXT, courseNum TEXT, courseTitle TEXT, courseCredits TEXT, courseDescription TEXT, courseCollege TEXT, courseRepeatStatus TEXT, coursePrereqs TEXT, courseRestrictions TEXT, courseCoreqs TEXT, courseTermType TEXT, courseStudentType TEXT, primary key(id))");
+            statementBrief.executeUpdate("create table DrexelClass (courseType TEXT, courseNum TEXT, courseTitle TEXT, courseCredits TEXT)");
 
             List<DrexelClass> allclasses = new ArrayList<>(0);
 
@@ -53,7 +53,7 @@ public class Main {
         }
         catch (SQLException e)
         {
-            System.out.println("Something went wrong!!: " + e.getMessage());
+            System.out.println("Something went wrong!: " + e.getMessage());
         }
         finally {
             try
@@ -119,7 +119,7 @@ public class Main {
 
             newClass.courseDescription = currentcourse.getElementsByClass("courseblockdesc").text();
             newClass.courseDescription = (newClass.courseDescription.equals(""))?null:newClass.courseDescription;
-            
+
             for(Element property: currentcourse.getElementsByTag("b"))
             {
                 String type = property.textNodes().get(0).toString();
